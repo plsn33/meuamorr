@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nossa História</title>
+  <style>
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Eu e Você ❤️</h1>
+
+  <!-- Container com data e contador -->
+  <div class="container-dados">
+    <div class="data">Estamos namorando desde o dia <strong id="data-namoro"></strong></div>
+    <div class = "data">Mas sou seu desde o nosso primeiro beijo, sou apaixonado desde a viagem para chorozinho e amo você desde nem sei quando, apenas acordei em um dia e vi o dia mais lindo, daí percebi que era você. Amo você, minha preta e sempre estarei aqui para você e por você.</div>
+    <div class="contador">Estamos juntos há: <strong id="tempo-juntos"></strong></div>
+  </div>
+
+  <div class="decoracao">💖 💕 💘 💝 💗</div>
+
+  <!-- Carrossel de fotos -->
+  <div class="carrossel" id="carrossel">
+    <div class="seta esquerda" onclick="mudarSlide(-1)">❮</div>
+    <div class="seta direita" onclick="mudarSlide(1)">❯</div>
+    <div class="carrossel-inner" id="carrossel-inner">
+      <div class="slide"><img src="WhatsApp Image 2025-06-09 at 14.15.06.jpeg" alt="Foto 1" /></div>
+      <div class="slide"><img src="WhatsApp Image 2025-06-09 at 13.25.07.jpeg" alt="Foto 2" /></div>
+      <div class="slide"><img src="WhatsApp Image 2025-06-09 at 13.25.45.jpeg" alt="Foto 3" /></div>
+      <div class="slide"><img src="WhatsApp Image 2025-06-09 at 13.26.41.jpeg" alt="Foto 4" /></div>
+      <div class="slide"><img src="WhatsApp Image 2025-06-09 at 14.15.59.jpeg" alt="Foto 4" /></div>
+
+      <!-- Adicione mais imagens aqui -->
+    </div>
+  </div>
+
+  <div class="decoracao">💓 💞 💟 💕 💖</div>
+
+  <!-- Música -->
+  <audio controls autoplay loop>
+    <source src="VELUDO MARROM.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    // Data do namoro
+    const dataNamoro = new Date('2025-05-16T23:30:00'); // troque pela sua data real
+    document.getElementById('data-namoro').textContent = dataNamoro.toLocaleDateString('pt-BR');
+
+    // Contador de tempo real
+    function atualizarContador() {
+      const agora = new Date();
+      let diff = agora - dataNamoro;
+
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff -= dias * (1000 * 60 * 60 * 24);
+      const horas = Math.floor(diff / (1000 * 60 * 60));
+      diff -= horas * (1000 * 60 * 60);
+      const minutos = Math.floor(diff / (1000 * 60));
+      diff -= minutos * (1000 * 60);
+      const segundos = Math.floor(diff / 1000);
+
+      document.getElementById('tempo-juntos').textContent =
+        `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💖`;
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+
+    // Carrossel
+    const inner = document.getElementById('carrossel-inner');
+    const slides = inner.querySelectorAll('.slide');
+    let indice = 0;
+    let autoPlayInterval;
+
+    function mostrarSlide(i) {
+      indice = (i + slides.length) % slides.length;
+      inner.style.transform = `translateX(-${indice * 100}%)`;
+    }
+
+    function mudarSlide(delta) {
+      mostrarSlide(indice + delta);
+      reiniciarAutoPlay();
+    }
+
+    function iniciarAutoPlay() {
+      autoPlayInterval = setInterval(() => {
+        mostrarSlide(indice + 1);
+      }, 5000); // 5 segundos
+    }
+
+    function reiniciarAutoPlay() {
+      clearInterval(autoPlayInterval);
+      iniciarAutoPlay();
+    }
+
+    // Swipe no celular
+    let startX = 0;
+
+    inner.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    inner.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - startX;
+      if (diffX > 50) mudarSlide(-1);
+      else if (diffX < -50) mudarSlide(1);
+    });
+
+    mostrarSlide(indice);
+    iniciarAutoPlay();
+  </script>
+
+</body>
+</html>
